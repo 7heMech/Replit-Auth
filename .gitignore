@@ -1,6 +1,6 @@
-# For uploading to github/npm ignoring unnecessary files
-.replit
-replit.nix
+# For uploading to github ignoring unnecessary files
+.git
 .upm
 .config
 .cache
+node_modules
