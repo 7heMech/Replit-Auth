@@ -1,29 +1,40 @@
-A really optimized and small express middleware for repl authentication.
-
-## Example
+A really optimized and simple replit authentication middleware for Express applications. The middleware can be applied to all routes or specific routes, and a custom login page can be used.
+## Installation
+```
+npm install replit-auth
+```
+## Usage
 ```js
 const express = require('express');
-const init = require("replit-auth");
+const authMiddleware = require('replit-auth');
 
 const app = express();
 
-const options = {
-	authPage: false, // path to custom auth page, defaults to an optimized version of the replit auth page
-	allRoutes: false // enforce auth on all routes
-};
+// Apply the middleware to all routes
+authMiddleware(app);
 
-const auth = init(app, options); // undefined if allRoutes is true
-
-app.get('/', (req, res) => {
-  res.send("Hello Guest!");
+// Apply the middleware to specific routes
+const auth = authMiddleware(app, { allRoutes: false });
+app.get('/protected', auth, (req, res) => {
+  res.send(`Hello, ${req.user.name}!`);
 });
 
-// enforce auth on a single route
-app.get('/user', auth, (req, res) => {
-  res.send(`Hello ${req.user.name}!`);
-});
-
-app.listen(3000, () => console.log('Server started!'));
+// Use a custom login page
+authMiddleware(app, { customPage: '/path/to/custom/login.html' });
 ```
+## API
 
-[Live Demo](https://replit.com/@7heMech/ReplAuth?embed=true#index.js)
+### `authMiddleware(app, options)`
+
+This function takes in an Express application instance and an options object.
+
+#### Parameters
+
+- `app` (Express application instance): The Express application instance to which the middleware will be applied.
+- `options` (Object): An object containing optional parameters.
+  - `allRoutes` (Boolean): Whether auth should be applied on all routes or not. Defaults to `true`.
+  - `customPage` (String): Path to custom auth page file.
+
+#### Returns
+
+If `allRoutes` is false, returns an auth middleware function that can be used on specific routes. If `allRoutes` is true, returns `undefined`.

@@ -27,12 +27,12 @@ const auth = (req, res, next) => {
  * @param app Express application instance
  * @param {Object} options Optional parameters
  * @param {Boolean} [options.allRoutes] Whether auth should be applied on all routes or not
- * @param {String} [options.authPage] Path to custom auth page file
- * @returns {(undefined|function)} undefined if allRoutes = true, otherwise an auth middleware to be used on specific routes
+ * @param {String} [options.customPage] Path to custom auth page file
+ * @returns {(undefined|function)} an auth middleware to be used on specific routes if allRoutes is false
  */
-module.exports = (app, { allRoutes = false, authPage = __dirname + '/login.html' } = { allRoutes: false, authPage: __dirname + '/login.html' }) => {
+module.exports = (app, { allRoutes = true, customPage = __dirname + '/login.html' } = { allRoutes: true, customPage: __dirname + '/login.html' }) => {
 	if (!app) throw "app parameter not defined";
-	page = authPage;
+	page = customPage;
 	app.use(parseHeaders);
 	return allRoutes ? app.use(auth) : auth;
 }
