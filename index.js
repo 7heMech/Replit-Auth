@@ -1,6 +1,6 @@
 let page;
 
-const parseHeaders = async (req, res, next) => {
+const parseHeaders = (req, res, next) => {
 	let user = {};
 	const { headers } = req;
 
@@ -18,17 +18,15 @@ const parseHeaders = async (req, res, next) => {
 	next();
 }
 
-const auth = (req, res, next) => {
-	if (req.user === null) return res.sendFile(page);
-	next();
-}
+const auth = (req, res, next) => req.user === null ? res.sendFile(page) : next();
 
 /**
- * @param app Express application instance
- * @param {Object} options Optional parameters
- * @param {Boolean} [options.allRoutes] Whether auth should be applied on all routes or not
+ * @module replit-auth
+ * @param {object} app - An Express.js app instance.
+ * @param {object} options - An options object.
+ * @param {boolean} [options.allRoutes=true] - Whether to protect all routes with the middleware, or just specific ones.
  * @param {String} [options.customPage] Path to custom auth page file
- * @returns {(undefined|function)} an auth middleware to be used on specific routes if allRoutes is false
+ * @returns {(undefined|function)} - If allRoutes is true, returns undefined, otherwise returns the middleware function
  */
 module.exports = (app, { allRoutes = true, customPage = __dirname + '/login.html' } = { allRoutes: true, customPage: __dirname + '/login.html' }) => {
 	if (!app) throw "app parameter not defined";
