@@ -18,7 +18,14 @@ const parseHeaders = (req, res, next) => {
 	next();
 }
 
-const auth = (req, res, next) => req.user === null ? (res.render ? res.render(path) : res.sendFile(path)) : next();
+const auth = (req, res, next) => {
+  if (req.user) next();
+	try {
+		res.render(path);
+	} catch(err) {
+     res.sendFile(path);
+	} 
+}
 
 /**
  * @module replit-auth
