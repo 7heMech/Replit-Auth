@@ -1,4 +1,4 @@
-let page;
+let path;
 
 const parseHeaders = (req, res, next) => {
 	let user = {};
@@ -18,7 +18,7 @@ const parseHeaders = (req, res, next) => {
 	next();
 }
 
-const auth = (req, res, next) => req.user === null ? res.render(page) : next();
+const auth = (req, res, next) => req.user === null ? (res.render ? res.render(path) : res.sendFile(path)) : next();
 
 /**
  * @module replit-auth
@@ -30,7 +30,7 @@ const auth = (req, res, next) => req.user === null ? res.render(page) : next();
  */
 module.exports = (app, { allRoutes = true, customPage = __dirname + '/login.html' } = { allRoutes: true, customPage: __dirname + '/login.html' }) => {
 	if (!app) throw "app parameter not defined";
-	page = customPage;
+	path = customPage;
 	app.use(parseHeaders);
 	return allRoutes ? app.use(auth) : auth;
 }
