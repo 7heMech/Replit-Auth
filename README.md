@@ -21,6 +21,9 @@ app.get('/protected', auth, (req, res) => {
 
 // Use a custom login page
 authMiddleware(app, { customPage: '/path/to/custom/login.html' });
+
+// Use with socketio
+authMiddleware
 ```
 ## API
 

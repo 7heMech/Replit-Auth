@@ -1,10 +1,9 @@
 let path;
 
-const parseHeaders = (req, res, next) => {
-	let user = {};
-	const { headers } = req;
+const parseHeaders = (headers) => {
+	const user = {};
 
-	for (const header in req.user = user, headers) {
+	for (const header in user, headers) {
 		const value = headers[header];
 
 		if (header.startsWith("x-replit-") && value && "string" == typeof value) {
@@ -14,8 +13,7 @@ const parseHeaders = (req, res, next) => {
 		}
 	}
 	
-	if (0 === Object.keys(user).length && user.constructor === Object) req.user = null;
-	next();
+	return (0 === Object.keys(user).length && user.constructor === Object) ? null : user;
 }
 
 const auth = (req, res, next) => {
@@ -23,7 +21,7 @@ const auth = (req, res, next) => {
 	try {
 		res.render(path);
 	} catch(err) {
-     res.sendFile(path);
+		res.sendFile(path);
 	} 
 }
 
@@ -36,8 +34,17 @@ const auth = (req, res, next) => {
  * @returns {(undefined|function)} - If allRoutes is true, returns undefined, otherwise returns the middleware function
  */
 module.exports = (app, { allRoutes = true, customPage = __dirname + '/login.html' } = { allRoutes: true, customPage: __dirname + '/login.html' }) => {
+	if (app.sockets) app.use((socket, next) => {
+    socket.user = parseHeaders(socket.request.headers);
+    return next();
+  });
 	if (!app) throw "app parameter not defined";
 	path = customPage;
-	app.use(parseHeaders);
+	app.use((req, res, next) => {
+    req.user = parseHeaders(req.headers);
+		next();
+	});
 	return allRoutes ? app.use(auth) : auth;
+  
+
 }
