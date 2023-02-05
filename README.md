@@ -23,7 +23,7 @@ app.get('/protected', auth, (req, res) => {
 authMiddleware(app, { customPage: '/path/to/custom/login.html' });
 
 // Use with socketio
-authMiddleware
+authMiddleware(io); // adds socket.user
 ```
 ## API
 

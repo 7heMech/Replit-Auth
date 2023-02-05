@@ -12,22 +12,22 @@ const parseHeaders = (headers) => {
 			"roles" === property || "teams" === property ? user[property] = value.split(",") : user[property] = value;
 		}
 	}
-	
+
 	return (0 === Object.keys(user).length && user.constructor === Object) ? null : user;
 }
 
 const auth = (req, res, next) => {
-  if (req.user) next();
+	if (req.user) return next();
 	try {
 		res.render(path);
-	} catch(err) {
+	} catch (err) {
 		res.sendFile(path);
-	} 
+	}
 }
 
 /**
  * @module replit-auth
- * @param {object} app - An Express.js app instance.
+ * @param {object} app - An Express.js app instance or socket io instance.
  * @param {object} options - An options object.
  * @param {boolean} [options.allRoutes=true] - Whether to protect all routes with the middleware, or just specific ones.
  * @param {String} [options.customPage] Path to custom auth page file
@@ -35,16 +35,15 @@ const auth = (req, res, next) => {
  */
 module.exports = (app, { allRoutes = true, customPage = __dirname + '/login.html' } = { allRoutes: true, customPage: __dirname + '/login.html' }) => {
 	if (app.sockets) app.use((socket, next) => {
-    socket.user = parseHeaders(socket.request.headers);
-    return next();
-  });
-	if (!app) throw "app parameter not defined";
-	path = customPage;
-	app.use((req, res, next) => {
-    req.user = parseHeaders(req.headers);
-		next();
-	});
-	return allRoutes ? app.use(auth) : auth;
-  
-
+		socket.user = parseHeaders(socket.request.headers);
+		return next();
+	}); else {
+		if (!app) throw "app parameter not defined";
+		path = customPage;
+		app.use((req, res, next) => {
+			req.user = parseHeaders(req.headers);
+			next();
+		});
+		return allRoutes ? app.use(auth) : auth;
+	}
 }
