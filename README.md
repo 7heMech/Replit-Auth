@@ -1,4 +1,4 @@
-A really optimized and simple replit authentication middleware for Express applications. The middleware can be applied to all routes or specific routes, and a custom login page can be used.
+A really optimized and simple replit authentication middleware for Express and Socketio applications. The middleware can be applied to all routes or specific routes, and a custom login page can be used.
 ## Installation
 ```
 npm install replit-auth

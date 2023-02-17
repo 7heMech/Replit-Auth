@@ -20,7 +20,7 @@
 </svg>
 <span class="auth-text">Login With Replit</span>
 </button>
-<p class="auth-sign-up">don’t have an account? <u>sign up</u></p>
+<p class="auth-sign-up">don't have an account? <u>sign up</u></p>
 </div>
 <script authed="location.reload()">(function(){var scr=document.currentScript,footer=document.getElementById("footer");if("https:"!==location.protocol){var err=document.createElement("div");err.className="replit-auth-error",err.textContent="Replit auth requires https!",scr.parentNode.insertBefore(err,scr)}footer.onclick=function(){window.addEventListener("message",authComplete);var h=500,w=350,left=screen.width/2-w/2,top=screen.height/2-h/2,authWindow=window.open("https://replit.com/auth_with_repl_site?domain="+location.host,"_blank","modal =yes, toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width="+w+", height="+h+", top="+top+", left="+left);function authComplete(e){"auth_complete"===e.data&&(window.removeEventListener("message",authComplete),authWindow.close(),scr.attributes.authed.value?eval(scr.attributes.authed.value):location.reload())}},scr.parentNode.insertBefore(footer,scr)})()</script>
 </div>
