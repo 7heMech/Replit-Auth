@@ -1,4 +1,4 @@
-A really optimized and simple replit authentication middleware for Express and Socketio applications. The middleware can be applied to all routes or specific routes, and a custom login page can be used.
+A really optimized and simple replit authentication middleware for Express. The middleware can be applied to all routes or specific routes, and a custom login page can be used.
 ## Installation
 ```
 npm install replit-auth
@@ -21,9 +21,6 @@ app.get('/protected', auth, (req, res) => {
 
 // Use a custom login page
 authMiddleware(app, { customPage: '/path/to/custom/login.html' });
-
-// Use with socketio
-authMiddleware(io); // adds socket.user
 ```
 ## API
 
@@ -41,3 +38,17 @@ This function takes in an Express application instance and an options object.
 #### Returns
 
 If `allRoutes` is false, returns an auth middleware function that can be used on specific routes. If `allRoutes` is true, returns `undefined`.
+
+### Type for req.user:
+```ts
+interface UserInfo {
+  id?: number;
+  name?: string;
+  bio?: string;
+  url?: string;
+  profileImage?: string;
+  roles?: string[];
+  teams?: string[];
+	[prop: string]: any;
+}
+```

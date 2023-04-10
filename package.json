@@ -1,6 +1,6 @@
 {
 	"name": "replit-auth",
-	"version": "4.0.10",
+	"version": "5.0.0",
 	"description": "A really optimized and small express middleware for repl authentication.",
 	"author": "7hemech",
 	"keywords": ["repl",
