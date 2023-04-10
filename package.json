@@ -3,7 +3,8 @@
 	"version": "5.0.0",
 	"description": "A really optimized and small express middleware for repl authentication.",
 	"author": "7hemech",
-	"keywords": ["repl",
+	"keywords": [
+		"repl",
 		"replit",
 		"express",
 		"auth",
